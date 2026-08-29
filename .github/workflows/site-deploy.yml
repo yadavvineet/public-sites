@@ -18,9 +18,10 @@ on:
         required: true
         type: choice
         options:
+          - github
           - s3
           - nginx
-        default: s3
+        default: github
 
 env:
   NODE_VERSION: "20"
@@ -30,6 +31,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: v2kmedia-1
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -39,6 +43,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
+          cache-dependency-path: "v2kmedia-1/package-lock.json"
 
       - name: Install dependencies
         run: npm ci
@@ -50,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: site-output
-          path: out/
+          path: v2kmedia-1/out/
           retention-days: 7
 
   deploy-s3:

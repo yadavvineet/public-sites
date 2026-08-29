@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "common-lambda/**"
+      - "common-lambda/email-lambda-v2kmedia/**"
       - ".github/workflows/lambda-package.yml"
 
 env:
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: common-lambda
+        working-directory: common-lambda/email-lambda-v2kmedia
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-          cache-dependency-path: "common-lambda/package-lock.json"
+          cache-dependency-path: "common-lambda/email-lambda-v2kmedia/package-lock.json"
 
       - name: Install dependencies
         run: npm ci
@@ -40,5 +40,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lambda-package
-          path: common-lambda/lambda-package.zip
+          path: common-lambda/email-lambda-v2kmedia/lambda-package.zip
           retention-days: 7
