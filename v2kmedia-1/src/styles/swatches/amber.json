@@ -1,0 +1,13 @@
+{
+  "name": "Amber",
+  "id": "amber",
+  "colors": {
+    "charcoal": "#1c1c1e",
+    "offwhite": "#fafafa",
+    "accent": "#d97706",
+    "accent-hover": "#b45309",
+    "muted": "#6b7280",
+    "surface": "#f3f4f6",
+    "bg-dark": "#111827"
+  }
+}

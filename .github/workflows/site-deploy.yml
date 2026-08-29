@@ -1,0 +1,120 @@
+name: Site Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      color-swatch:
+        description: "Color swatch for build"
+        required: true
+        type: choice
+        options:
+          - deep-blue
+          - teal
+          - emerald
+          - amber
+        default: deep-blue
+      deploy-target:
+        description: "Deployment target"
+        required: true
+        type: choice
+        options:
+          - s3
+          - nginx
+        default: s3
+
+env:
+  NODE_VERSION: "20"
+  NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${{ secrets.RECAPTCHA_SITE_KEY }}
+  RECAPTCHA_SECRET_KEY: ${{ secrets.RECAPTCHA_SECRET_KEY }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build with swatch
+        run: SELECTED_SWATCH=${{ inputs.color-swatch }} npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-output
+          path: out/
+          retention-days: 7
+
+  deploy-s3:
+    needs: build
+    if: ${{ inputs.deploy-target == 's3' }}
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site-output
+          path: dist/
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION || 'ap-south-1' }}
+
+      - name: Sync to S3
+        run: |
+          aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET }}/ \
+            --delete \
+            --cache-control "public, max-age=31536000, immutable" \
+            --exclude "*.html" \
+            --exclude "*.*"
+          # Re-upload HTML files with no-cache
+          aws s3 sync dist/ s3://${{ secrets.AWS_S3_BUCKET }}/ \
+            --delete \
+            --cache-control "public, max-age=0, must-revalidate" \
+            --exclude "*.*" \
+            --include "*.html" \
+            --include "robots.txt" \
+            --include "sitemap.xml"
+
+  deploy-nginx:
+    needs: build
+    if: ${{ inputs.deploy-target == 'nginx' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site-output
+          path: dist/
+
+      - name: Deploy to nginx server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.NGINX_HOST }}
+          username: ${{ secrets.NGINX_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          target: /tmp/v2kmedia-deploy/
+          strip_components: 0
+
+      - name: Move files to nginx root
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.NGINX_HOST }}
+          username: ${{ secrets.NGINX_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            rm -rf /usr/share/nginx/html/*
+            mv /tmp/v2kmedia-deploy/* /usr/share/nginx/html/
+            rm -rf /tmp/v2kmedia-deploy/

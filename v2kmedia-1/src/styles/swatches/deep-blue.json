@@ -1,0 +1,13 @@
+{
+  "name": "Deep Blue",
+  "id": "deep-blue",
+  "colors": {
+    "charcoal": "#1c1c1e",
+    "offwhite": "#fafafa",
+    "accent": "#1e40af",
+    "accent-hover": "#1a3a9e",
+    "muted": "#6b7280",
+    "surface": "#f3f4f6",
+    "bg-dark": "#111827"
+  }
+}

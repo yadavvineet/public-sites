@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#fafafa"/>
+  <text x="600" y="290" text-anchor="middle" font-family="system-ui, sans-serif" font-size="80" font-weight="700" fill="#1c1c1e" letter-spacing="-0.02em">v2k</text>
+  <text x="600" y="350" text-anchor="middle" font-family="system-ui, sans-serif" font-size="48" font-weight="300" fill="#6b7280" letter-spacing="0.02em">Media</text>
+  <line x1="540" y1="370" x2="660" y2="370" stroke="#1e40af" stroke-width="2" stroke-linecap="round"/>
+</svg>
