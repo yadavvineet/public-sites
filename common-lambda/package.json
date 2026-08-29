@@ -1,0 +1,18 @@
+{
+  "name": "v2k-contact-lambda",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "package": "node package.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ses": "^3.600.0",
+    "@aws-sdk/credential-provider-node": "^3.600.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "typescript": "^5",
+    "archiver": "^7.0.0"
+  }
+}
