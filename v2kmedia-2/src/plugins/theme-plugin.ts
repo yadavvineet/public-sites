@@ -18,8 +18,6 @@ export function themePlugin(options: { selectedTheme: string | undefined }): Plu
     name: "v2k-theme",
     enforce: "pre" as "pre",
 
-    // Don't prepend to CSS files — it breaks @import ordering.
-    // Instead, inject theme variables into index.html only.
     transform(_code, _id) {
       return null;
     },
