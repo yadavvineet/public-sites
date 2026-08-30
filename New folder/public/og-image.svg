@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#fafafa"/>
+  <text x="600" y="280" text-anchor="middle" font-family="system-ui" font-size="72" font-weight="bold" fill="#1c1c1e">
+    <tspan font-weight="bold">v2k</tspan>
+    <tspan font-weight="300">Media</tspan>
+  </text>
+  <rect x="480" y="320" width="240" height="4" fill="#1e40af" rx="2"/>
+  <text x="600" y="380" text-anchor="middle" font-family="system-ui" font-size="24" fill="#6b7280">
+    Digital, Print &amp; Custom Business Solutions
+  </text>
+</svg>

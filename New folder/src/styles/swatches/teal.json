@@ -1,0 +1,13 @@
+{
+  "name": "Teal",
+  "id": "teal",
+  "colors": {
+    "charcoal": "#1c1c1e",
+    "offwhite": "#fafafa",
+    "accent": "#0d9488",
+    "accent-hover": "#0f766e",
+    "muted": "#6b7280",
+    "surface": "#f3f4f6",
+    "bg-dark": "#111827"
+  }
+}
