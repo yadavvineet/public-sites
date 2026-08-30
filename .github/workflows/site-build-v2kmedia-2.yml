@@ -25,7 +25,7 @@ on:
         default: github
 
 env:
-  NODE_VERSION: "20"
+  NODE_VERSION: "24"
   VITE_RECAPTCHA_SITE_KEY: ${{ secrets.RECAPTCHA_SITE_KEY }}
 
 jobs:
