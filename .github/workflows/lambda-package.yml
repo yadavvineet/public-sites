@@ -8,7 +8,7 @@ on:
       - ".github/workflows/lambda-package.yml"
 
 env:
-  NODE_VERSION: "20"
+  #NODE_VERSION: "20"
 
 jobs:
   package:
@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          #node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
           cache-dependency-path: "common-lambda/email-lambda-v2kmedia/package-lock.json"
 
