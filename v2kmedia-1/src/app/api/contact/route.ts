@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateRecaptcha } from "@/lib/recaptcha";
-import { submitToLambda } from "@/lib/contact-api";
+import { validateRecaptcha } from "../../../lib/recaptcha";
+import { submitToLambda } from "../../../lib/contact-api";
 
 export async function POST(request: NextRequest) {
   try {

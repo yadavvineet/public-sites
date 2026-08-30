@@ -62,7 +62,13 @@ function main(): void {
   const globalsCss = fs.readFileSync(GLOBALS_PATH, "utf-8");
   const output = injectSwatch(globalsCss, swatch);
 
-  fs.writeFileSync(GLOBALS_PATH, output, "utf-8");
+  const outDir = path.join(__dirname, "..", "src", "styles");
+  const outputPath = path.join(outDir, "globals.css");
+
+  // Write to a temp file, then atomically replace globals.css
+  const tempPath = outputPath + ".tmp";
+  fs.writeFileSync(tempPath, output, "utf-8");
+  fs.renameSync(tempPath, outputPath);
   console.log(`Injected swatch "${swatchId}" into globals.css`);
   console.log(`  accent: ${swatch.accent}`);
   console.log(`  accent-hover: ${swatch.accentHover}`);
